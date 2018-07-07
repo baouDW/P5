@@ -1,0 +1,198 @@
+<?php $theme= $manager->getTheme(); ?>
+<?php $vidT= $manager->getVidT(); ?>
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><?= $title ?></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="public/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="public/css/clean-blog.min.css" rel="stylesheet">
+
+  </head>
+<style type="text/css">
+  body
+    {
+      background-color: #5c3c3c;
+    }
+</style>
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.php">Pense le monde</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item bonjour">
+              <em class="">
+                Bonjour <?php
+                if (isset($_COOKIE['pseudo'])){
+                  echo $_COOKIE['pseudo'];
+                }elseif (isset($_SESSION['pseudo'])){
+                  echo $_SESSION['pseudo'];
+                }  
+                ?>
+                  
+                </em>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=listpost">Dernière pensée</a>
+            </li>
+
+
+            <?php
+            while ($data = $theme->fetch())
+            {
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=themeV&amp;id=<?= $data['id'] ?>">theme du jour</a>
+            </li>
+            <?php
+            }
+            $theme->closeCursor();
+            ?>
+
+            <?php
+            while ($videot = $vidT->fetch())
+            {
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=videoView&amp;id=<?= $videot['id'] ?>">Video du jour</a>
+            </li>
+            <?php
+            }
+            $vidT->closeCursor();
+            ?>
+
+
+            <?php
+            if (isset($_SESSION['pseudo']) OR (isset($_COOKIE['pseudo'])))
+            {          
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=deconexion">Se deconnecter</a>
+            </li>
+            <?php
+            }else{
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="view/frontend/loginView.php">S'identifier</a>
+            </li>
+            <?php
+            } 
+            ?>
+
+            <?php
+            if ((isset($_SESSION['pseudo'])) && ($_SESSION['pseudo'] == 'admin'))
+            {          
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=adminaccess">Back office</a>
+            </li>
+            <?php
+            }
+            ?>
+
+            <?php
+            if ((isset($_SESSION['pseudo'])) && ($_SESSION['pseudo'] !== 'admin'))
+            {          
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=useraccess">mon espace</a>
+            </li>
+            <?php
+            }
+            ?>
+
+            <?php
+            if ((isset($_COOKIE['pseudo'])) && ($_COOKIE['pseudo'] == 'admin'))
+            {          
+            ?>
+            <li class="nav-item">
+              <a class="nav-link" href="index.php?action=adminaccess">Back office</a>
+            </li>
+            <?php
+            }
+            ?>
+
+
+            
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    
+
+    <!-- Main Content -->
+    <div>
+      <div class="row space-nav">
+        <div class="col-lg-12 col-md-10 mx-auto">          
+          <?= $content ?>              
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Projet DWJ 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="public/vendor/jquery/jquery.min.js"></script>
+    <script src="public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/clean-blog.min.js"></script>
+
+  </body>
+
+</html>

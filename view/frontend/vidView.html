@@ -1,0 +1,115 @@
+<?php
+//require('././model/model.php');
+//$manager = new Manager();
+//$theme= $manager->getTheme();
+//$themeCom=$manager->getCommentsTheme($data['id']);
+ob_start();
+?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example of Bootstrap 3 Static Navbar</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+    div
+    {
+      
+
+    }
+    .container
+    {
+      border-color: red;
+    }
+    .theme-j
+    {
+      text-align: center;
+      margin-bottom: 50px;
+      border: solid;
+      width: 100%;
+      margin-left: -10%;
+    }
+    .commentaire
+    {
+      margin:20px;
+      border: solid;
+      width: 70%;
+    }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row theme-j">Theme du jour
+      <div class="col-lg-12 citation">
+<?php
+while ($data = $theme->fetch())
+{
+?>    
+     <div class="space">
+        <h3>
+           <?= nl2br($data['id']) ?>
+        </h3>
+                
+        <p>
+            <?= nl2br($data['content']) ?>            
+        </p>
+    </div> 
+   <?php
+  //$themeCom=$manager->getCommentsTheme($data['id']);
+  //}
+  //$theme->closeCursor();
+  //$themeCom=$manager->getCommentsTheme($data['id']);
+
+  ?>
+
+
+      </div>
+    </div>
+
+    <div class="row commentaire">
+      <div class="col-lg-12 ">commentaire
+        <form action="./index.php?action=addthemeComment&amp;id=<?= $data['id'] ?>" method="post">
+          <?php
+          $themeCom=$manager->getCommentsTheme($data['id']);
+          }
+          //$theme->closeCursor();
+          //$themeCom=$manager->getCommentsTheme($data['id']);
+
+          ?>
+                  <div class="form-group">
+                    <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+      </div>
+    </div>
+    <hr>
+
+    <?php
+          while ($comment = $themeCom->fetch())
+          {
+          ?>
+          <!-- Single Comment -->
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0"><?= htmlspecialchars($comment['author']) ?></h5>
+              <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+            </div>
+          </div>
+            <?php
+            }
+            ?>
+          
+          
+          
+<?php $content = ob_get_clean(); ?>
+<?php require('templateFront.html'); ?>
+</body>
+
+
